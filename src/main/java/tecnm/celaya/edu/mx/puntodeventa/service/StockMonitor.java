@@ -38,7 +38,7 @@ public class StockMonitor {
         String title = "Alerta de Stock Bajo";
         StringBuilder message = new StringBuilder("Los siguientes productos tienen un stock bajo:\n\n");
         for (Product product : products) {
-            message.append(String.format("- %s (%s): %d unidades\n", product.getName(), product.getCategory(), product.getStock()));
+            message.append(String.format("- %s: %d unidades\n", product.getName(), product.getQuantity()));
         }
 
         Notifications notificationBuilder = Notifications.create()

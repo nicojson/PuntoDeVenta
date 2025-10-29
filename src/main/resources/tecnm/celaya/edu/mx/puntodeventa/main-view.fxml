@@ -15,7 +15,8 @@
 <?import java.net.URL?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<StackPane fx:id="rootPane" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tecnm.celaya.edu.mx.todolistreportapp.controller.MainController">
+<!-- Cambiamos el controlador al nuevo controlador del punto de venta -->
+<StackPane fx:id="rootPane" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tecnm.celaya.edu.mx.puntodeventa.controller.PuntoDeVentaController">
     <stylesheets>
         <URL value="@style.css" />
     </stylesheets>
@@ -29,7 +30,7 @@
                                 <Insets left="20.0" right="20.0" />
                             </padding>
                             <children>
-                                <Label text="Mis Tareas" HBox.hgrow="ALWAYS">
+                                <Label text="Punto de Venta" HBox.hgrow="ALWAYS">
                                     <font>
                                         <Font name="System Bold" size="24.0" />
                                     </font>
@@ -37,11 +38,6 @@
                                 <JFXButton fx:id="chartsButton" onAction="#handleShowCharts" text="">
                                     <graphic>
                                         <FontIcon iconLiteral="mdi2c-chart-bar" iconSize="24" />
-                                    </graphic>
-                                </JFXButton>
-                                <JFXButton fx:id="exportButton" onAction="#handleExport" text="">
-                                    <graphic>
-                                        <FontIcon iconLiteral="mdi2s-share-variant" iconSize="24" />
                                     </graphic>
                                 </JFXButton>
                                 <Label fx:id="welcomeUserLabel" text="Bienvenido, Usuario">
@@ -64,24 +60,28 @@
                         </HBox>
                         <HBox alignment="CENTER_LEFT" prefHeight="50.0" spacing="20.0" style="-fx-background-color: #FFFFFF; -fx-border-color: #E0E0E0; -fx-border-width: 0 0 1 0;">
                             <padding>
-                                <Insets left="20.0" right="20.0" />
+                                <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
                             </padding>
                             <children>
-                                <JFXTextField fx:id="searchFilterTextField" labelFloat="true" prefWidth="300.0" promptText="Buscar por nombre..." />
-                                <JFXComboBox fx:id="categoryFilterComboBox" labelFloat="true" prefWidth="200.0" promptText="Filtrar por Categoría" />
+                                <!-- Campos para seleccionar cliente, producto y cantidad -->
+                                <JFXComboBox fx:id="customerComboBox" labelFloat="true" prefWidth="250.0" promptText="Seleccionar Cliente" />
+                                <JFXComboBox fx:id="productComboBox" labelFloat="true" prefWidth="250.0" promptText="Seleccionar Producto" />
+                                <JFXTextField fx:id="quantityTextField" labelFloat="true" prefWidth="100.0" promptText="Cantidad" />
+                                <JFXButton fx:id="addProductButton" onAction="#handleAddProduct" styleClass="success-button" text="Agregar Producto" />
                             </children>
                         </HBox>
                     </children>
                 </VBox>
             </top>
             <center>
-                <TableView fx:id="tasksTableView" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                <!-- Tabla para mostrar los productos de la venta -->
+                <TableView fx:id="saleTableView" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                     <columns>
-                        <TableColumn fx:id="taskNameColumn" prefWidth="200.0" text="Nombre" />
-                        <TableColumn fx:id="taskDescriptionColumn" prefWidth="350.0" text="Descripción" />
-                        <TableColumn fx:id="taskStatusColumn" prefWidth="120.0" text="Estatus" />
-                        <TableColumn fx:id="taskCategoryColumn" prefWidth="120.0" text="Categoría" />
-                        <TableColumn fx:id="taskDueDateColumn" prefWidth="150.0" text="Fecha de Vencimiento" />
+                        <TableColumn fx:id="productNameColumn" prefWidth="250.0" text="Producto" />
+                        <TableColumn fx:id="productDescriptionColumn" prefWidth="350.0" text="Descripción" />
+                        <TableColumn fx:id="quantityColumn" prefWidth="100.0" text="Cantidad" />
+                        <TableColumn fx:id="unitPriceColumn" prefWidth="120.0" text="Precio Unitario" />
+                        <TableColumn fx:id="subtotalColumn" prefWidth="120.0" text="Subtotal" />
                     </columns>
                     <BorderPane.margin>
                         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
@@ -89,14 +89,30 @@
                 </TableView>
             </center>
             <right>
-                <VBox alignment="TOP_CENTER" prefWidth="200.0" spacing="15.0" styleClass="root-pane">
+                <VBox alignment="TOP_CENTER" prefWidth="220.0" spacing="15.0" styleClass="root-pane">
                     <padding>
                         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                     </padding>
                     <children>
-                        <JFXButton fx:id="addButton" maxWidth="1.7976931348623157E308" onAction="#handleAddTask" styleClass="success-button" text="Añadir Tarea" />
-                        <JFXButton fx:id="editButton" maxWidth="1.7976931348623157E308" onAction="#handleEditTask" styleClass="warning-button" text="Editar Tarea" />
-                        <JFXButton fx:id="deleteButton" maxWidth="1.7976931348623157E308" onAction="#handleDeleteTask" styleClass="danger-button" text="Eliminar Tarea" />
+                        <JFXButton fx:id="deleteProductButton" maxWidth="1.7976931348623157E308" onAction="#handleDeleteProduct" styleClass="danger-button" text="Eliminar Producto" />
+                        <VBox alignment="CENTER_RIGHT" spacing="10.0" VBox.vgrow="ALWAYS">
+                           <children>
+                              <Label fx:id="subtotalLabel" text="Subtotal: \$0.00">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="totalLabel" text="Total: \$0.00">
+                                 <font>
+                                    <Font name="System Bold" size="20.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                           <VBox.margin>
+                              <Insets top="20.0" />
+                           </VBox.margin>
+                        </VBox>
+                        <JFXButton fx:id="completeSaleButton" maxWidth="1.7976931348623157E308" onAction="#handleCompleteSale" styleClass="primary-button" text="Finalizar Venta" />
                     </children>
                 </VBox>
             </right>

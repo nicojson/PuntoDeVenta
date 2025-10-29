@@ -1,68 +1,84 @@
 package tecnm.celaya.edu.mx.puntodeventa.model;
 
-public class SaleDetail {
-    private int id;
-    private int saleId;
-    private int productId;
-    private int quantity;
-    private double unitPrice;
-    private double subtotal;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
-    public SaleDetail(int id, int saleId, int productId, int quantity, double unitPrice, double subtotal) {
-        this.id = id;
-        this.saleId = saleId;
-        this.productId = productId;
-        this.quantity = quantity;
-        this.unitPrice = unitPrice;
-        this.subtotal = subtotal;
+public class SaleDetail {
+    private final IntegerProperty id = new SimpleIntegerProperty();
+    private final IntegerProperty saleId = new SimpleIntegerProperty();
+    private final IntegerProperty productId = new SimpleIntegerProperty();
+    private final StringProperty productName = new SimpleStringProperty(); // Nuevo campo
+    private final IntegerProperty quantity = new SimpleIntegerProperty();
+    private final DoubleProperty unitPrice = new SimpleDoubleProperty();
+    private final DoubleProperty subtotal = new SimpleDoubleProperty();
+
+    public SaleDetail(int id, int saleId, int productId, String productName, int quantity, double unitPrice, double subtotal) {
+        this.id.set(id);
+        this.saleId.set(saleId);
+        this.productId.set(productId);
+        this.productName.set(productName);
+        this.quantity.set(quantity);
+        this.unitPrice.set(unitPrice);
+        this.subtotal.set(subtotal);
     }
 
-    // Getters and Setters
     public int getId() {
+        return id.get();
+    }
+
+    public IntegerProperty idProperty() {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public int getSaleId() {
+        return saleId.get();
     }
 
-    public int getSaleId() {
+    public IntegerProperty saleIdProperty() {
         return saleId;
     }
 
-    public void setSaleId(int saleId) {
-        this.saleId = saleId;
+    public int getProductId() {
+        return productId.get();
     }
 
-    public int getProductId() {
+    public IntegerProperty productIdProperty() {
         return productId;
     }
 
-    public void setProductId(int productId) {
-        this.productId = productId;
+    public String getProductName() {
+        return productName.get();
+    }
+
+    public StringProperty productNameProperty() {
+        return productName;
     }
 
     public int getQuantity() {
+        return quantity.get();
+    }
+
+    public IntegerProperty quantityProperty() {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
+    public double getUnitPrice() {
+        return unitPrice.get();
     }
 
-    public double getUnitPrice() {
+    public DoubleProperty unitPriceProperty() {
         return unitPrice;
     }
 
-    public void setUnitPrice(double unitPrice) {
-        this.unitPrice = unitPrice;
-    }
-
     public double getSubtotal() {
-        return subtotal;
+        return subtotal.get();
     }
 
-    public void setSubtotal(double subtotal) {
-        this.subtotal = subtotal;
+    public DoubleProperty subtotalProperty() {
+        return subtotal;
     }
 }

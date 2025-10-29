@@ -13,6 +13,10 @@ public class CustomerService {
         this.dao = dao;
     }
 
+    public List<Customer> getAllCustomers() {
+        return dao.getAll();
+    }
+
     public Task<List<Customer>> loadCustomersTask() {
         return new Task<>() {
             @Override

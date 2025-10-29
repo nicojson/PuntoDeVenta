@@ -22,9 +22,9 @@ public class ReportingDAOImpl implements ReportingDAO {
     @Override
     public Map<String, Integer> getTop10SoldProducts() {
         Map<String, Integer> topProducts = new LinkedHashMap<>();
-        String sql = "SELECT p.name, SUM(sd.quantity) AS total_sold " +
-                     "FROM sale_details sd " +
-                     "JOIN products p ON sd.product_id = p.id " +
+        String sql = "SELECT p.name, SUM(d.cantidad) AS total_sold " +
+                     "FROM Detalle d " +
+                     "JOIN products p ON d.id_product = p.id " +
                      "GROUP BY p.name " +
                      "ORDER BY total_sold DESC " +
                      "LIMIT 10";
@@ -41,16 +41,16 @@ public class ReportingDAOImpl implements ReportingDAO {
     @Override
     public List<Product> getTop10LowStockProducts() {
         List<Product> lowStockProducts = new ArrayList<>();
-        String sql = "SELECT * FROM products ORDER BY stock ASC LIMIT 10";
+        String sql = "SELECT id, name, description, price, quantity, category_id FROM products ORDER BY quantity ASC LIMIT 10";
         try (PreparedStatement stmt = connection.prepareStatement(sql); ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {
                 lowStockProducts.add(new Product(
                         rs.getInt("id"),
                         rs.getString("name"),
                         rs.getString("description"),
-                        rs.getString("category"),
                         rs.getDouble("price"),
-                        rs.getInt("stock")
+                        rs.getInt("quantity"),
+                        rs.getObject("category_id", Integer.class)
                 ));
             }
         } catch (SQLException e) {

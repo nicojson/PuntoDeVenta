@@ -11,40 +11,55 @@ public class Product {
     private final IntegerProperty id = new SimpleIntegerProperty();
     private final StringProperty name = new SimpleStringProperty();
     private final StringProperty description = new SimpleStringProperty();
-    private final StringProperty category = new SimpleStringProperty();
     private final DoubleProperty price = new SimpleDoubleProperty();
-    private final IntegerProperty stock = new SimpleIntegerProperty();
+    private final IntegerProperty quantity = new SimpleIntegerProperty(); // El campo principal es quantity
+    private final IntegerProperty categoryId = new SimpleIntegerProperty();
 
-    public Product(int id, String name, String description, String category, double price, int stock) {
+    public Product(int id, String name, String description, double price, int quantity, Integer categoryId) {
         this.id.set(id);
         this.name.set(name);
         this.description.set(description);
-        this.category.set(category);
         this.price.set(price);
-        this.stock.set(stock);
+        this.quantity.set(quantity);
+        if (categoryId != null) {
+            this.categoryId.set(categoryId);
+        }
     }
 
     public int getId() { return id.get(); }
-    public void setId(int id) { this.id.set(id); }
     public IntegerProperty idProperty() { return id; }
 
     public String getName() { return name.get(); }
-    public void setName(String name) { this.name.set(name); }
     public StringProperty nameProperty() { return name; }
 
     public String getDescription() { return description.get(); }
-    public void setDescription(String description) { this.description.set(description); }
     public StringProperty descriptionProperty() { return description; }
 
-    public String getCategory() { return category.get(); }
-    public void setCategory(String category) { this.category.set(category); }
-    public StringProperty categoryProperty() { return category; }
-
     public double getPrice() { return price.get(); }
-    public void setPrice(double price) { this.price.set(price); }
     public DoubleProperty priceProperty() { return price; }
 
-    public int getStock() { return stock.get(); }
-    public void setStock(int stock) { this.stock.set(stock); }
-    public IntegerProperty stockProperty() { return stock; }
+    // Métodos para quantity (el nombre correcto según la BD)
+    public int getQuantity() { return quantity.get(); }
+    public void setQuantity(int quantity) { this.quantity.set(quantity); }
+    public IntegerProperty quantityProperty() { return quantity; }
+
+    // --- LÓGICA AÑADIDA ---
+    // Métodos alias para "stock" para mantener compatibilidad.
+    // Devuelven el valor de "quantity".
+    public int getStock() {
+        return getQuantity();
+    }
+
+    public void setStock(int stock) {
+        setQuantity(stock);
+    }
+
+    public IntegerProperty stockProperty() {
+        return quantityProperty();
+    }
+    // --- FIN DE LA LÓGICA AÑADIDA ---
+
+    // Métodos para categoryId
+    public int getCategoryId() { return categoryId.get(); }
+    public IntegerProperty categoryIdProperty() { return categoryId; }
 }
