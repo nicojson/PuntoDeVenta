@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox spacing="20.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17" fx:controller="tecnm.celaya.edu.mx.puntodeventa.controller.ChartsController">
+    <children>
+        <BarChart fx:id="topProductsChart" title="Top 10 Productos Más Vendidos">
+            <xAxis>
+                <CategoryAxis label="Producto" />
+            </xAxis>
+            <yAxis>
+                <NumberAxis label="Cantidad Vendida" />
+            </yAxis>
+        </BarChart>
+        <BarChart fx:id="lowStockChart" title="Top 10 Productos con Menos Stock">
+            <xAxis>
+                <CategoryAxis label="Producto" />
+            </xAxis>
+            <yAxis>
+                <NumberAxis label="Stock Actual" />
+            </yAxis>
+        </BarChart>
+    </children>
+</VBox>
